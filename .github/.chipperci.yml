@@ -1,0 +1,30 @@
+version: 1
+ 
+environment:
+  php: 8.2
+
+ 
+# Optional services
+services:
+#  - mysql: 8
+
+ 
+# Build all commits
+on:
+   push:
+      branches: .*
+ 
+pipeline:
+  - name: Setup
+    cmd: |
+      cp -v .env.example .env
+      composer install --no-interaction --prefer-dist --optimize-autoloader
+      php artisan key:generate
+ 
+  - name: Compile Assets
+    cmd: |
+      npm ci --no-audit
+      npm run build
+ 
+  - name: Test
+    cmd: pest
