@@ -2,7 +2,14 @@
 
 use App\Models\User;
 
+beforeEach(function () {
+    User::create([
+        'name'       =>    'user',
+        'email'      =>  'user@app.com',
+        'password'   =>  '123456789'
 
+    ]);
+});
 
 it('user has login', function () {
     $response = $this->post('/api/login', [
